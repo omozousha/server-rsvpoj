@@ -1,4 +1,4 @@
-// /api/index.js
+// /api/guestlist.js
 const mongoose = require('mongoose');
 
 let cachedDb = null;
@@ -27,14 +27,13 @@ const User = mongoose.model("User", userSchema);
 
 module.exports = async (req, res) => {
   await connectToDatabase();
-  if (req.method === 'POST') {
-    let newUser = new User({
-      name: req.body.name,
-      attendance: req.body.attendance,
-      message: req.body.message
-    });
-
-    await newUser.save();
-    res.redirect("/");
+  if (req.method === 'GET') {
+    try {
+      const users = await User.find({}).sort({eventDate: -1});
+      res.send(users);
+    } catch (err) {
+      console.log("Error occurred:", err);
+      res.status(500).send("An error occurred while retrieving users");
+    }
   }
 };
