@@ -8,7 +8,7 @@ app.use(cors()); // Use the cors middleware
 
 // Koneksi ke MongoDB
 mongoose
-  .connect("process.env.MONGODB_URI")
+  .connect("mongodb+srv://omozousha12:Ziggyss12@ojdatabase.mc8xxun.mongodb.net/TAMU-RSVP")
   .then(() => {
     console.log("Koneksi sukses");
   })
