@@ -43,7 +43,7 @@ app.post("/", function (req, res) {
 });
 
 // Endpoint untuk menampilkan data dari database
-app.get("/guestlist", async function (req, res) {
+app.get("/api/guestlist", async function (req, res) {
 
   try {
 

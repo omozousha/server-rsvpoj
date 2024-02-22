@@ -6,7 +6,7 @@ function Rsvp() {
 
     useEffect(() => {
         // Fetch data from the /guestlist endpoint
-        fetch('https://server-rsvpoj-2i084mgqo-rhythm-trial.vercel.app/guestlist')
+        fetch('https://server-rsvpoj.vercel.app/api/guestlist')
             .then(response => response.json())
             .then(data => setGuestList(data))
             .catch(error => console.error('Error fetching guest list:', error));
