@@ -12,29 +12,36 @@ function Rsvp() {
       .catch((error) => console.error("Error fetching guest list:", error));
   }, []);
 
-  const [name, setName] = useState("");
-  const [attendance, setAttendance] = useState("");
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    attendance: "",
+    message: "",
+  });
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const submitForm = () => {
-    // Submit form data to API
+    // Submit form data to same API endpoint
     fetch("https://server-rsvpoj.vercel.app/api/guestlist", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name,
-        attendance,
-        message,
-      }),
+      body: JSON.stringify(formData),
     })
       .then((response) => {
         if (response.ok) {
           alert("Form submitted successfully!");
-          setName("");
-          setAttendance("");
-          setMessage("");
+          setFormData({
+            name: "",
+            attendance: "",
+            message: "",
+          });
         }
       })
       .catch((error) => {
@@ -55,8 +62,8 @@ function Rsvp() {
               type="text"
               id="name"
               name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formData.name}
+              onChange={handleChange}
               className="input"
               required
             />
@@ -65,8 +72,8 @@ function Rsvp() {
             <select
               id="attendance"
               name="attendance"
-              value={attendance}
-              onChange={(e) => setAttendance(e.target.value)}
+              value={formData.attendance}
+              onChange={handleChange}
               className="select"
               required
             >
@@ -80,8 +87,8 @@ function Rsvp() {
               placeholder="Say hello"
               id="message"
               name="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={formData.message}
+              onChange={handleChange}
               className="textarea"
               required
             />
