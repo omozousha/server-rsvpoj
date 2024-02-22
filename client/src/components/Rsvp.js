@@ -18,7 +18,7 @@ function Rsvp() {
 
   const submitForm = () => {
     // Submit form data to API
-    fetch("https://server-rsvpoj.vercel.app/api/rsvp", {
+    fetch("https://server-rsvpoj.vercel.app/api/guestlist", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
