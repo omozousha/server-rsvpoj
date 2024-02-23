@@ -6,7 +6,7 @@ function Rsvp() {
 
   useEffect(() => {
     // Fetch data from the /guestlist endpoint
-    fetch("https://server-rsvpoj.vercel.app/api/guestlist")
+    fetch("https://server-rsvpoj.vercel.app/guestlist")
       .then((response) => response.json())
       .then((data) => setGuestList(data))
       .catch((error) => console.error("Error fetching guest list:", error));
@@ -29,7 +29,7 @@ function Rsvp() {
     // Submit form data to same API endpoint
     try {
       const response = await fetch(
-        "https://server-rsvpoj.vercel.app/api/guestlist",
+        "https://server-rsvpoj.vercel.app/guestlist",
         {
           method: "POST",
           headers: {
