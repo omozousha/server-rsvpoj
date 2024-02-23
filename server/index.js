@@ -8,7 +8,9 @@ app.use(cors()); // Use the cors middleware
 
 // Koneksi ke MongoDB
 mongoose
-  .connect("mongodb+srv://omozousha12:Ziggyss12@ojdatabase.mc8xxun.mongodb.net/TAMU-RSVP")
+  .connect(
+    "mongodb+srv://omozousha12:Ziggyss12@ojdatabase.mc8xxun.mongodb.net/TAMU-RSVP"
+  )
   .then(() => {
     console.log("Koneksi sukses");
   })
@@ -21,8 +23,8 @@ const userSchema = new mongoose.Schema({
   message: String,
   eventDate: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 const User = mongoose.model("User", userSchema);
@@ -31,37 +33,56 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "..client/src/App.js");
 });
 
-app.post("/", function (req, res) {
-  let newUser = new User({
-    name: req.body.name,
-    attendance: req.body.attendance,
-    message: req.body.message
-  });
+app.post("/", async function (req, res) {
+  try {
+    let newUser = new User({
+      name: req.body.name,
+      attendance: req.body.attendance,
+      message: req.body.message,
+    });
 
-  newUser.save();
-  res.redirect("/");
+    await newUser.save();
+
+    res.send("User added successfully");
+  } catch (err) {
+    console.log("Error occurred:", err);
+
+    res.status(500).send("An error occurred while adding user");
+  }
 });
 
 // Endpoint untuk menampilkan data dari database
-app.get("/guestlist", async function (req, res) {
-
+app.get("/api/guestlist", async function (req, res) {
   try {
-
     // Urutkan berdasarkan tanggal eventDate secara descending
-    const users = await User.find({}).sort({eventDate: -1}); 
+    const users = await User.find({}).sort({ eventDate: -1 });
 
     res.send(users);
-
   } catch (err) {
-
     console.log("Error occurred:", err);
 
     res.status(500).send("An error occurred while retrieving users");
-  
   }
-
 });
 
+// Endpoint untuk menambahkan data ke database
+app.post("/guestlist", async function (req, res) {
+  try {
+    let newUser = new User({
+      name: req.body.name,
+      attendance: req.body.attendance,
+      message: req.body.message,
+    });
+
+    await newUser.save();
+
+    res.send("User added successfully");
+  } catch (err) {
+    console.log("Error occurred:", err);
+
+    res.status(500).send("An error occurred while adding user");
+  }
+});
 
 app.listen(5000, function () {
   console.log("Server berjalan di port 5000");
