@@ -33,23 +33,27 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "..client/src/App.js");
 });
 
-app.post("/", function (req, res) {
-  let newUser = new User({
-    name: req.body.name,
-    attendance: req.body.attendance,
-    message: req.body.message,
-  });
+app.post("/", async function (req, res) {
+  try {
+    let newUser = new User({
+      name: req.body.name,
+      attendance: req.body.attendance,
+      message: req.body.message,
+    });
 
-  newUser.save();
-  res.redirect("/");
+    await newUser.save();
+
+    res.send("User added successfully");
+  } catch (err) {
+    console.log("Error occurred:", err);
+
+    res.status(500).send("An error occurred while adding user");
+  }
 });
 
 // Endpoint untuk menampilkan data dari database
 app.get("/api/guestlist", async function (req, res) {
   try {
-    // Add API key to request header
-    req.headers["x-api-key"] = "EndbP3JXOqnHjyJvmMbIOxbnKSpi9YwoYmGVW5acSsKYprpTcDgW1m7MIu5HVTkU";
-
     // Urutkan berdasarkan tanggal eventDate secara descending
     const users = await User.find({}).sort({ eventDate: -1 });
 
@@ -64,9 +68,6 @@ app.get("/api/guestlist", async function (req, res) {
 // Endpoint untuk menambahkan data ke database
 app.post("/api/guestlist", async function (req, res) {
   try {
-    // Add API key to request header
-    req.headers["x-api-key"] = "EndbP3JXOqnHjyJvmMbIOxbnKSpi9YwoYmGVW5acSsKYprpTcDgW1m7MIu5HVTkU";
-
     let newUser = new User({
       name: req.body.name,
       attendance: req.body.attendance,
