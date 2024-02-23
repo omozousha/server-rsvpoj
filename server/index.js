@@ -52,7 +52,7 @@ app.post("/", async function (req, res) {
 });
 
 // Endpoint untuk menampilkan data dari database
-app.get("/api/guestlist", async function (req, res) {
+app.get("/guestlist", async function (req, res) {
   try {
     // Urutkan berdasarkan tanggal eventDate secara descending
     const users = await User.find({}).sort({ eventDate: -1 });
