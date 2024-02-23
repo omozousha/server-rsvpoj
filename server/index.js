@@ -47,6 +47,9 @@ app.post("/", function (req, res) {
 // Endpoint untuk menampilkan data dari database
 app.get("/api/guestlist", async function (req, res) {
   try {
+    // Add API key to request header
+    req.headers["x-api-key"] = "EndbP3JXOqnHjyJvmMbIOxbnKSpi9YwoYmGVW5acSsKYprpTcDgW1m7MIu5HVTkU";
+
     // Urutkan berdasarkan tanggal eventDate secara descending
     const users = await User.find({}).sort({ eventDate: -1 });
 
@@ -61,6 +64,9 @@ app.get("/api/guestlist", async function (req, res) {
 // Endpoint untuk menambahkan data ke database
 app.post("/api/guestlist", async function (req, res) {
   try {
+    // Add API key to request header
+    req.headers["x-api-key"] = "EndbP3JXOqnHjyJvmMbIOxbnKSpi9YwoYmGVW5acSsKYprpTcDgW1m7MIu5HVTkU";
+
     let newUser = new User({
       name: req.body.name,
       attendance: req.body.attendance,
