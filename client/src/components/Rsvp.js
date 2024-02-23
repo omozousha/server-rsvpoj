@@ -67,7 +67,6 @@ function Rsvp() {
                 <p className="nama">
                   <strong>Name:</strong> {user.name}
                 </p>
-                {/*  <p className='kehadiran'><strong>Attendance:</strong> {user.attendance}</p> */}
                 <p className="tanggal">
                   <strong>Date:</strong>{" "}
                   {new Date(user.eventDate).toLocaleDateString()}
