@@ -25,29 +25,32 @@ function Rsvp() {
     });
   };
 
-  const submitForm = () => {
+  const submitForm = async () => {
     // Submit form data to same API endpoint
-    fetch("https://server-rsvpoj.vercel.app/api/guestlist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert("Form submitted successfully!");
-          setFormData({
-            name: "",
-            attendance: "",
-            message: "",
-          });
+    try {
+      const response = await fetch(
+        "https://server-rsvpoj.vercel.app/api/guestlist",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         }
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-        alert("Failed to submit form");
-      });
+      );
+
+      if (response.ok) {
+        alert("Form submitted successfully!");
+        setFormData({
+          name: "",
+          attendance: "",
+          message: "",
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Failed to submit form");
+    }
   };
 
   return (
