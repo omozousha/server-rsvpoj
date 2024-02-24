@@ -1,89 +1,36 @@
-const express = require("express");
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
 const app = express();
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const cors = require("cors"); // Import the cors module
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors()); // Use the cors middleware
+app.use(bodyParser.json());
 
-// Koneksi ke MongoDB
-mongoose
-  .connect(
-    "mongodb+srv://omozousha12:Ziggyss12@ojdatabase.mc8xxun.mongodb.net/TAMU-RSVP"
-  )
-  .then(() => {
-    console.log("Koneksi sukses");
-  })
-  .catch((err) => console.log("Tidak dapat terhubung ke database"));
+mongoose.connect('mongodb+srv://omozousha12:Ziggyss12@ojdatabase.mc8xxun.mongodb.net/TAMU-RSVP', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Membuat skema
-const userSchema = new mongoose.Schema({
-  name: String,
-  attendance: String,
-  message: String,
-  eventDate: {
-    type: Date,
-    default: Date.now,
-  },
+const rsvpSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    attend: String
 });
 
-const User = mongoose.model("User", userSchema);
+const RSVP = mongoose.model('RSVP', rsvpSchema);
 
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + "..client/src/App.js");
-});
-
-app.post("/", async function (req, res) {
-  try {
-    let newUser = new User({
-      name: req.body.name,
-      attendance: req.body.attendance,
-      message: req.body.message,
+app.post('/api/addRsvp', (req, res) => {
+    const newRSVP = new RSVP({
+        name: req.body.name,
+        email: req.body.email,
+        attend: req.body.attend
     });
 
-    await newUser.save();
-
-    res.send("User added successfully");
-  } catch (err) {
-    console.log("Error occurred:", err);
-
-    res.status(500).send("An error occurred while adding user");
-  }
-});
-
-// Endpoint untuk menampilkan data dari database
-app.get("/guestlist", async function (req, res) {
-  try {
-    // Urutkan berdasarkan tanggal eventDate secara descending
-    const users = await User.find({}).sort({ eventDate: -1 });
-
-    res.send(users);
-  } catch (err) {
-    console.log("Error occurred:", err);
-
-    res.status(500).send("An error occurred while retrieving users");
-  }
-});
-
-// Endpoint untuk menambahkan data ke database
-app.post("/guestlist", async function (req, res) {
-  try {
-    let newUser = new User({
-      name: req.body.name,
-      attendance: req.body.attendance,
-      message: req.body.message,
+    newRSVP.save((err) => {
+        if (err) {
+            res.status(500).send('Failed to save RSVP');
+        } else {
+            res.status(200).send('RSVP saved successfully');
+        }
     });
-
-    await newUser.save();
-
-    res.send("User added successfully");
-  } catch (err) {
-    console.log("Error occurred:", err);
-
-    res.status(500).send("An error occurred while adding user");
-  }
 });
 
-app.listen(5000, function () {
-  console.log("Server berjalan di port 5000");
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
 });
