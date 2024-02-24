@@ -14,22 +14,22 @@ function Rsvp() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+  fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      setGuestList([...guestList, data]);
+      setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
     })
-      .then((response) => response.json())
-      .then((data) => {
-        setGuestList([...guestList, data]);
-        setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
-      })
-      .catch((error) => console.error("Error submitting form:", error));
-  };
+    .catch((error) => console.error("Error submitting form:", error));
+};
 
   // Fetch data from the /guestlist endpoint
   const fetchGuestList = () => {
@@ -41,20 +41,6 @@ function Rsvp() {
 
   useEffect(() => {
     fetchGuestList();
-
-    // Create an EventSource connection
-    const eventSource = new EventSource('https://server-rsvpoj.vercel.app/events');
-
-    // Listen for messages
-    eventSource.onmessage = (event) => {
-      const newGuest = JSON.parse(event.data);
-      setGuestList(prevGuestList => [...prevGuestList, newGuest]);
-    };
-
-    // Close the EventSource connection when the component unmounts
-    return () => {
-      eventSource.close();
-    };
   }, []);
 
   return (

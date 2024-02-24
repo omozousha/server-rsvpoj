@@ -28,22 +28,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-let clients = [];
-
-// Endpoint for client connections
-app.get('/events', (req, res) => {
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
-  res.flushHeaders();
-
-  clients.push(res);
-
-  req.on('close', () => {
-    clients = clients.filter(client => client !== res);
-  });
-});
-
 // Endpoint untuk menambahkan RSVP ke database
 app.post("/api/addRsvp", async function (req, res) {
   try {
@@ -54,11 +38,6 @@ app.post("/api/addRsvp", async function (req, res) {
     });
 
     await newRsvp.save();
-
-    // Notify all clients about the new guest
-    clients.forEach(client =>
-      client.write(`data: ${JSON.stringify(newRsvp)}\n\n`)
-    );
 
     // Kirim respons dalam format JSON yang valid
     res.status(201).json({
