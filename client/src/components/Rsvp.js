@@ -14,34 +14,36 @@ function Rsvp() {
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      setGuestList([...guestList, data]);
-      setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
+    fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     })
-    .catch((error) => console.error("Error submitting form:", error));
-};
-
-  // Fetch data from the /guestlist endpoint
-  const fetchGuestList = () => {
-    fetch("https://server-rsvpoj.vercel.app/guestlist")
       .then((response) => response.json())
-      .then((data) => setGuestList(data))
-      .catch((error) => console.error("Error fetching guest list:", error));
+      .then((data) => {
+        setGuestList([...guestList, data]);
+        setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
+      })
+      .catch((error) => console.error("Error submitting form:", error));
   };
 
   useEffect(() => {
+    const fetchGuestList = async () => {
+      try {
+        const response = await fetch("https://server-rsvpoj.vercel.app/guestlist");
+        const data = await response.json();
+        setGuestList(data);
+      } catch (error) {
+        console.error("Error fetching guest list:", error);
+      }
+    };
+
     fetchGuestList();
-  }, []);
+  }, [guestList]); // Fetch guest list when guestList state changes
 
   return (
     <div>
