@@ -8,63 +8,47 @@ function Rsvp() {
     attendance: "",
     message: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    setIsLoading(true);
+  // Disable submit button
+  const submitButton = document.querySelector(".send-button");
+  submitButton.disabled = true;
+  submitButton.innerText = "Loading...";
 
-    fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+  fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      setGuestList([...guestList, data]);
+      setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
+      fetchGuestList(); // Refresh guest list
     })
-      .then((response) => response.json())
-      .then((data) => {
-        setGuestList([...guestList, data]);
-        setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-        setIsLoading(false);
-      });
-  };
+    .catch((error) => console.error("Error submitting form:", error))
+    .finally(() => {
+      // Enable submit button after loading is done
+      submitButton.disabled = false;
+      submitButton.innerText = "Submit";
+    });
+};
 
   // Fetch data from the /guestlist endpoint
   const fetchGuestList = () => {
-    setIsLoading(true);
-
     fetch("https://server-rsvpoj.vercel.app/guestlist")
       .then((response) => response.json())
-      .then((data) => {
-        setGuestList(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching guest list:", error);
-        setIsLoading(false);
-      });
+      .then((data) => setGuestList(data))
+      .catch((error) => console.error("Error fetching guest list:", error));
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchGuestList();
-    }, 5000); // Auto refresh every 5 seconds
-
-    return () => clearInterval(interval);
+    fetchGuestList();
   }, []);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <div>
