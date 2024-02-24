@@ -34,7 +34,7 @@ function Rsvp() {
         setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
         setTimeout(() => {
           setModalIsOpen(false); // Close modal after 3 seconds
-          fetchGuestList(); // Refresh the guest list
+          fetchGuestList(); // Refresh the guest list data
         }, 3000);
       })
       .catch((error) => {
