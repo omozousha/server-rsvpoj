@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Rsvp.css";
-import io from "socket.io-client";
-
-const socket = io("https://server-rsvpoj.vercel.app/guestlist"); // Ganti dengan URL server WebSocket Anda
 
 function Rsvp() {
   const [guestList, setGuestList] = useState([]);
@@ -17,31 +14,34 @@ function Rsvp() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+  fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      setGuestList([...guestList, data]);
+      setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
     })
+    .catch((error) => console.error("Error submitting form:", error));
+};
+
+  // Fetch data from the /guestlist endpoint
+  const fetchGuestList = () => {
+    fetch("https://server-rsvpoj.vercel.app/guestlist")
       .then((response) => response.json())
-      .then((data) => {
-        setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
-      })
-      .catch((error) => console.error("Error submitting form:", error));
+      .then((data) => setGuestList(data))
+      .catch((error) => console.error("Error fetching guest list:", error));
   };
 
   useEffect(() => {
-    socket.on("newRsvp", (data) => {
-      setGuestList([...guestList, data]);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [guestList]);
+    fetchGuestList();
+  }, []);
 
   return (
     <div>
