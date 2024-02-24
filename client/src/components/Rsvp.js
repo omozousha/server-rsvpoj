@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import Modal from "react-modal";
 import "./Rsvp.css";
+
+Modal.setAppElement("#root"); // This line is needed for accessibility reasons
 
 function Rsvp() {
   const [guestList, setGuestList] = useState([]);
@@ -8,7 +11,7 @@ function Rsvp() {
     attendance: "",
     message: "",
   });
-  const [isLoading, setIsLoading] = useState(false); // New state for loading modal
+  const [modalIsOpen, setModalIsOpen] = useState(false); // New state for modal
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,7 +19,7 @@ function Rsvp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true); // Show loading modal
+    setModalIsOpen(true); // Open modal
 
     fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
       method: "POST",
@@ -30,13 +33,13 @@ function Rsvp() {
         setGuestList([...guestList, data]);
         setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
         setTimeout(() => {
-          setIsLoading(false); // Hide loading modal after 3 seconds
+          setModalIsOpen(false); // Close modal after 3 seconds
           fetchGuestList(); // Refresh the guest list
         }, 3000);
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
-        setIsLoading(false); // Hide loading modal if there's an error
+        setModalIsOpen(false); // Close modal if there's an error
       });
   };
 
@@ -53,7 +56,7 @@ function Rsvp() {
 
   return (
     <div>
-      {isLoading && <div>Loading...</div>} {/* Loading modal */}
+      <Modal isOpen={modalIsOpen}>Loading...</Modal> {/* Modal */}
       <div className="form-container">
         <div className="form">
           <h1>RSVP Form</h1>
