@@ -27,8 +27,6 @@ function Rsvp() {
     .then((data) => {
       setGuestList([...guestList, data]);
       setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
-      
-      fetchGuestList(); // Refresh guest list after adding new data
     })
     .catch((error) => console.error("Error submitting form:", error));
 };
