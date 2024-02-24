@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Rsvp.css";
+import io from "socket.io-client";
+
+const socket = io("https://server-rsvpoj.vercel.app/guestlist"); // Ganti dengan URL server WebSocket Anda
 
 function Rsvp() {
   const [guestList, setGuestList] = useState([]);
@@ -25,25 +28,20 @@ function Rsvp() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setGuestList([...guestList, data]);
         setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
       })
       .catch((error) => console.error("Error submitting form:", error));
   };
 
   useEffect(() => {
-    const fetchGuestList = async () => {
-      try {
-        const response = await fetch("https://server-rsvpoj.vercel.app/guestlist");
-        const data = await response.json();
-        setGuestList(data);
-      } catch (error) {
-        console.error("Error fetching guest list:", error);
-      }
-    };
+    socket.on("newRsvp", (data) => {
+      setGuestList([...guestList, data]);
+    });
 
-    fetchGuestList();
-  }, [guestList]); // Fetch guest list when guestList state changes
+    return () => {
+      socket.disconnect();
+    };
+  }, [guestList]);
 
   return (
     <div>
