@@ -9,34 +9,28 @@ function Rsvp() {
     message: "",
   });
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  // Disable submit button
-  const submitButton = document.querySelector(".send-button");
-  submitButton.disabled = true;
-  submitButton.innerText = "Loading...";
-
-  fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      setGuestList([...guestList, data]);
-      setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
-      fetchGuestList(); // Refresh guest list
+    fetch("https://server-rsvpoj.vercel.app/api/addRsvp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     })
-    .catch((error) => console.error("Error submitting form:", error))
-    .finally(() => {
-      // Enable submit button after loading is done
-      submitButton.disabled = false;
-      submitButton.innerText = "Submit";
-    });
-};
+      .then((response) => response.json())
+      .then((data) => {
+        setGuestList([...guestList, data]);
+        setFormData({ name: "", attendance: "", message: "" }); // Reset form after submission
+        fetchGuestList(); // Refresh guest list
+      })
+      .catch((error) => console.error("Error submitting form:", error));
+  };
 
   // Fetch data from the /guestlist endpoint
   const fetchGuestList = () => {
