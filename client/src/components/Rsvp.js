@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Rsvp = () => {
+const RSVPForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -79,4 +79,4 @@ const Rsvp = () => {
   );
 };
 
-export default Rsvp;
+export default RSVPForm;
