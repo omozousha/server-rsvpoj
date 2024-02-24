@@ -1,7 +1,7 @@
 /* Rsvp.css */
 
 body {
-  background-color: #f8f8f8;
+  background-color: #f8f8f8; /* Warna latar belakang halaman */
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
@@ -16,17 +16,17 @@ body {
 }
 
 .form {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8); /* Transparansi untuk efek glossy */
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 75%;
-  max-width: 325px;
-  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+  width: 75%; /* Lebar formulir */
+  max-width: 325px; /* Lebar maksimum formulir */
+  margin: auto; /* Posisi di tengah */
 }
 
 .form h1 {
-  color: #e91e63;
+  color: #e91e63; /* Warna judul */
   text-align: center;
 }
 
@@ -51,7 +51,7 @@ body {
 }
 
 .send-button {
-  background-color: #e91e63;
+  background-color: #e91e63; /* Warna tombol */
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -60,24 +60,24 @@ body {
 }
 
 .send-button:hover {
-  background-color: #c2185b;
+  background-color: #c2185b; /* Warna tombol saat dihover */
 }
 
 h2 {
-  color: #e91e63;
+  color: #e91e63; /* Warna judul */
   text-align: center;
 }
 
 #guestList {
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: rgba(255, 255, 255, 0.8);
+  max-height: 300px; /* Tinggi maksimum daftar tamu */
+  overflow-y: auto; /* Menambahkan scrollbar jika kontennya melebihi tinggi maksimum */
+  background-color: rgba(255, 255, 255, 0.8); /* Transparansi untuk efek glossy */
   border-radius: 10px;
   padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 600px;
-  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+  width: 80%; /* Lebar daftar tamu */
+  max-width: 600px; /* Lebar maksimum daftar tamu */
+  margin: auto; /* Posisi di tengah */
   margin-top: 20px;
 }
 
@@ -86,8 +86,8 @@ h2 {
   padding: 10px;
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 2px solid #e91e63;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+  border: 2px solid #e91e63; /* Garis tepi untuk pesan */
 }
 
 .chatBalloon p {
@@ -95,110 +95,24 @@ h2 {
 }
 
 .pesan {
-  color: #e91e63;
+  color: #e91e63; /* Warna pesan */
   font-style: italic;
   font-size: 0.9em;
 }
 
 .nama {
-  color: #333;
+  color: #333; /* Warna nama */
   font-size: 0.7em;
 }
 
 .tanggal {
-  color: #555;
+  color: #555; /* Warna tanggal */
   font-size: 0.7em;
 }
 
-/* Additional styles for a more attractive appearance */
-
-body {
-  background-image: linear-gradient(to bottom right, #f8f8f8, #e0e0e0);
-}
-
-.form {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 75%;
-  max-width: 500px;
-  margin: auto;
-}
-
-.form h1 {
-  color: #e91e63;
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.input,
-.select,
-.textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #e91e63;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-.send-button {
-  background-color: #e91e63;
-  color: #fff;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.send-button:hover {
-  background-color: #c2185b;
-}
-
-#guestList {
-  max-height: 400px;
-  overflow-y: auto;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 800px;
-  margin: auto;
-  margin-top: 40px;
-}
-
-.chatBalloon {
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border: 2px solid #e91e63;
-}
-
-.pesan {
-  color: #e91e63;
-  font-style: italic;
-  font-size: 16px;
-}
-
-.nama {
-  color: #333;
-  font-size: 14px;
-}
-
-.tanggal {
-  color: #555;
-  font-size: 14px;
-}
-
+/* Tambahan untuk membuat halaman responsif */
 @media (max-width: 600px) {
-  .form,
-  #guestList {
-    width: 90%;
+  .form, #guestList {
+      width: 90%;
   }
 }
