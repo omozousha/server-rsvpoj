@@ -23,6 +23,11 @@ const Rsvpmaster = () => {
 
       // Ambil ulang daftar tamu setelah RSVP ditambahkan
       fetchGuestList();
+
+      // Reset form fields
+      setName("");
+      setAttendance("");
+      setMessage("");
     } catch (error) {
       console.error("Error adding RSVP:", error);
     }
