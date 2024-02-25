@@ -56,7 +56,23 @@ function Rsvp() {
 
   return (
     <div>
-      <Modal isOpen={modalIsOpen}>Loading...</Modal> {/* Modal */}
+      <Modal 
+  isOpen={modalIsOpen}
+  style={{
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 300,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+    animation: 'slideDown 0.5s ease-out' 
+  }}
+>
+  Loading...
+</Modal>
       <div className="form-container">
         <div className="form">
           <h1>RSVP Form</h1>
