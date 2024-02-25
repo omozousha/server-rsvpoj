@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./Rsvpmaster.css";
+import axios from "axios";
 
 const Rsvpmaster = () => {
   const [name, setName] = useState("");
@@ -23,28 +23,6 @@ const Rsvpmaster = () => {
     }
   };
 
-  const handleDelete = async (name) => {
-    try {
-      await axios.delete(`https://server-rsvpoj.vercel.app/api/deleteRsvp/${name}`);
-
-      // Ambil ulang daftar tamu setelah RSVP dihapus
-      fetchGuestList();
-    } catch (error) {
-      console.error("Error deleting RSVP:", error);
-    }
-  };
-
-  const handleDeleteAll = async () => {
-    try {
-      await axios.delete("https://server-rsvpoj.vercel.app/api/deleteAllRsvp");
-
-      // Ambil ulang daftar tamu setelah semua RSVP dihapus
-      fetchGuestList();
-    } catch (error) {
-      console.error("Error deleting all RSVPs:", error);
-    }
-  };
-
   const fetchGuestList = async () => {
     try {
       const response = await axios.get("https://server-rsvpoj.vercel.app/guestlist");
@@ -60,11 +38,12 @@ const Rsvpmaster = () => {
   }, []);
 
   return (
-    <div>
+    <div className="form-container">
+      <div className="form">
       <h2>RSVP Form</h2>
       <form onSubmit={(e) => e.preventDefault()}>
         <label>Name:</label>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Enter your name" />
 
         <label>Attendance:</label>
         <select value={attendance} onChange={(e) => setAttendance(e.target.value)} required>
@@ -74,22 +53,29 @@ const Rsvpmaster = () => {
         </select>
 
         <label>Message:</label>
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+        <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Enter your message"></textarea>
 
-        <button onClick={handleSubmit}>Submit RSVP</button>
+        <div className="button-container">
+        <button onClick={handleSubmit} className="send-button">Submit RSVP</button>
+        </div>
       </form>
 
       <h2>Guest List</h2>
-      <ul>
+      <div id="guestList" className="chatContainer">
         {guestList.map((guest) => (
-          <li key={guest._id}>
-            {guest.name} - {guest.attendance}
-            <button onClick={() => handleDelete(guest.name)}>Delete</button>
-          </li>
+          <div key={guest._id} className="chatBalloon">
+            <p className="pesan">
+              <strong></strong>"{guest.message}"</p>
+            <p className="nama">
+              <strong>Name:</strong> {guest.name}</p>
+            <p className="kehadiran">
+              <strong>Attendance:</strong> {guest.attendance}</p>
+            <p className="tanggal">
+              {new Date(guest.eventDate).toLocaleDateString()}</p>
+          </div>
         ))}
-      </ul>
-
-      <button onClick={handleDeleteAll}>Delete All RSVPs</button>
+      </div>
+    </div>
     </div>
   );
 };
