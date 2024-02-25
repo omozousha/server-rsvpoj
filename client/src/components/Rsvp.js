@@ -57,18 +57,17 @@ function Rsvp() {
   return (
     <div>
       <Modal 
-  isOpen={modalIsOpen}
+  isOpen={modalIsOpen} 
   style={{
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 300,
-    padding: 20,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    boxShadow: '0 0 10px rgba(0,0,0,0.5)',
-    animation: 'slideDown 0.5s ease-out' 
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.75)'
+    },
+    content: {
+      color: 'lightsteelblue',
+      width: '50%', // Change the width of the modal
+      height: '50%', // Change the height of the modal
+      transition: 'all 0.3s ease-in-out' // Add a transition animation
+    }
   }}
 >
   Loading...
