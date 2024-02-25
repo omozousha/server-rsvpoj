@@ -60,12 +60,15 @@ function Rsvp() {
   isOpen={modalIsOpen} 
   style={{
     overlay: {
+      display: 'flex',
+      alignItems: 'center', // This will align the modal vertically in the center
+      justifyContent: 'center', // This will align the modal horizontally in the center
       backgroundColor: 'rgba(0, 0, 0, 0.75)'
     },
     content: {
       color: 'lightsteelblue',
-      width: '50%', // Change the width of the modal
-      height: '50%', // Change the height of the modal
+      width: '10%', // Change the width of the modal
+      height: '5%', // Change the height of the modal
       transition: 'all 0.3s ease-in-out' // Add a transition animation
     }
   }}
