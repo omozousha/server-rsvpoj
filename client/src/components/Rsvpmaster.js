@@ -10,7 +10,7 @@ const Rsvpmaster = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post("http://localhost:5000/api/addRsvp", {
+      await axios.post("https://server-rsvpoj.vercel.app/api/addRsvp", {
         name,
         attendance,
         message,
@@ -25,7 +25,7 @@ const Rsvpmaster = () => {
 
   const handleDelete = async (name) => {
     try {
-      await axios.delete(`http://localhost:5000/api/deleteRsvp/${name}`);
+      await axios.delete(`https://server-rsvpoj.vercel.app/api/deleteRsvp/${name}`);
 
       // Ambil ulang daftar tamu setelah RSVP dihapus
       fetchGuestList();
@@ -36,7 +36,7 @@ const Rsvpmaster = () => {
 
   const handleDeleteAll = async () => {
     try {
-      await axios.delete("http://localhost:5000/api/deleteAllRsvp");
+      await axios.delete("https://server-rsvpoj.vercel.app/api/deleteAllRsvp");
 
       // Ambil ulang daftar tamu setelah semua RSVP dihapus
       fetchGuestList();
@@ -47,7 +47,7 @@ const Rsvpmaster = () => {
 
   const fetchGuestList = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/guestlist");
+      const response = await axios.get("https://server-rsvpoj.vercel.app/guestlist");
       setGuestList(response.data);
     } catch (error) {
       console.error("Error fetching guest list:", error);
