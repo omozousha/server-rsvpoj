@@ -4,10 +4,9 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json()); // Middleware untuk mengurai body dalam format JSON
+app.use(express.json());
 app.use(cors());
 
-// Koneksi ke MongoDB
 mongoose
   .connect("mongodb+srv://omozousha12:Ziggyss12@ojdatabase.mc8xxun.mongodb.net/TAMU-RSVP")
   .then(() => {
@@ -15,7 +14,6 @@ mongoose
   })
   .catch((err) => console.log("Tidak dapat terhubung ke database"));
 
-// Membuat skema
 const userSchema = new mongoose.Schema({
   name: String,
   attendance: String,
@@ -28,7 +26,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-// Endpoint untuk menambahkan RSVP ke database
 app.post("/api/addRsvp", async function (req, res) {
   try {
     let newRsvp = new User({
@@ -39,7 +36,6 @@ app.post("/api/addRsvp", async function (req, res) {
 
     await newRsvp.save();
 
-    // Kirim respons dalam format JSON yang valid
     res.status(201).json({
       name: newRsvp.name,
       attendance: newRsvp.attendance,
@@ -51,7 +47,6 @@ app.post("/api/addRsvp", async function (req, res) {
   }
 });
 
-// Endpoint untuk menampilkan data dari database
 app.get("/guestlist", async function (req, res) {
   try {
     const users = await User.find({}).sort({ eventDate: -1 });
@@ -59,6 +54,40 @@ app.get("/guestlist", async function (req, res) {
   } catch (err) {
     console.log("Error occurred:", err);
     res.status(500).send("An error occurred while retrieving users");
+  }
+});
+
+// Endpoint untuk menghapus RSVP berdasarkan nama
+app.delete("/api/deleteRsvp/:name", async function (req, res) {
+  try {
+    const deletedUser = await User.findOneAndDelete({ name: req.params.name });
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "Data not found" });
+    }
+
+    res.json({
+      message: "Data successfully deleted",
+      deletedUser,
+    });
+  } catch (err) {
+    console.log("Error occurred:", err);
+    res.status(500).send("An error occurred while deleting RSVP");
+  }
+});
+
+// Endpoint untuk menghapus semua data RSVP
+app.delete("/api/deleteAllRsvp", async function (req, res) {
+  try {
+    const deletedUsers = await User.deleteMany();
+
+    res.json({
+      message: "All data successfully deleted",
+      deletedUsers,
+    });
+  } catch (err) {
+    console.log("Error occurred:", err);
+    res.status(500).send("An error occurred while deleting all RSVPs");
   }
 });
 
