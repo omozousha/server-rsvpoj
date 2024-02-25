@@ -32,6 +32,23 @@ const Rsvpmaster = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "name":
+        setName(value);
+        break;
+      case "attendance":
+        setAttendance(value);
+        break;
+      case "message":
+        setMessage(value);
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
     // Ambil daftar tamu saat komponen dimuat
     fetchGuestList();
@@ -43,17 +60,17 @@ const Rsvpmaster = () => {
       <h2>RSVP Form</h2>
       <form onSubmit={(e) => e.preventDefault()}>
         <label>Name:</label>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Enter your name" />
+        <input type="text" name="name" value={name} onChange={handleChange} required placeholder="Enter your name" />
 
         <label>Attendance:</label>
-        <select value={attendance} onChange={(e) => setAttendance(e.target.value)} required>
+        <select name="attendance" value={attendance} onChange={handleChange} required>
           <option value="">Select</option>
           <option value="Attending">Attending</option>
           <option value="Not Attending">Not Attending</option>
         </select>
 
         <label>Message:</label>
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Enter your message"></textarea>
+        <textarea name="message" value={message} onChange={handleChange} placeholder="Enter your message"></textarea>
 
         <div className="button-container">
         <button onClick={handleSubmit} className="send-button">Submit RSVP</button>
